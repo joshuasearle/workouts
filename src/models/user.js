@@ -8,4 +8,10 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-exports = User;
+const user = new User({
+  username: 'username',
+  password: 'password',
+  workouts: [],
+});
+
+module.exports = User;
