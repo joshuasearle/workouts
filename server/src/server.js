@@ -4,6 +4,8 @@ const dotenv = require('dotenv');
 require('./models/connection');
 const User = require('./models/user');
 
+require('./auth');
+
 dotenv.config();
 const defaultPort = 5000;
 const port = process.env.PORT || defaultPort;
