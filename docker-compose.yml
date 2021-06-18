@@ -33,6 +33,7 @@ services:
       - mongo-data:/data/db
     logging:
       driver: 'none'
+    command: mongod --quiet --logpath /dev/null
 
 networks:
   mern-app:
