@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
+const { generateAccessToken } = require('../auth');
 
 async function createUser(req, res) {
   const { username, password } = req.body;
@@ -11,7 +12,8 @@ async function createUser(req, res) {
       workouts: [],
     });
     await user.save();
-    res.status(201).send();
+    const token = generateAccessToken(username);
+    res.status(201).json(token);
   } catch (e) {
     console.log(e);
     res.status(500).send();
