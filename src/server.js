@@ -1,6 +1,9 @@
 const express = require('express');
+const dotenv = require('dotenv');
 
-const port = 5000;
+dotenv.config();
+const defaultPort = 5000;
+const port = process.env.PORT || defaultPort;
 const app = express();
 
 app.use('/', (req, res) => {
@@ -8,5 +11,5 @@ app.use('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log('Listening on port 5000');
+  console.log(`Listening on port ${port}`);
 });
