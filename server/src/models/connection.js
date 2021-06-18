@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
+mongoose.connect('mongodb://mongo:27017/workouts', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
