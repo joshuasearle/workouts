@@ -1,20 +1,23 @@
 const User = require('../models/user');
 const Exercise = require('../models/exercise');
+const Workout = require('../models/workout');
 
 async function createExercise(req, res) {
   const { title, description, setCount, repCount, secondsBreak } = req.body;
+
+  const exercise = new Exercise({
+    title: title,
+    description: description,
+    setCount: setCount,
+    repCount: repCount,
+    secondsBreak: secondsBreak,
+  });
+  const saveExercisePromise = exercise.save();
+  const updateUserPromise = User.findByIdAndUpdate(req.user._id, {
+    $push: { exercises: exercise._id },
+  });
+
   try {
-    const exercise = new Exercise({
-      title: title,
-      description: description,
-      setCount: setCount,
-      repCount: repCount,
-      secondsBreak: secondsBreak,
-    });
-    const saveExercisePromise = exercise.save();
-    const updateUserPromise = User.findByIdAndUpdate(req.user._id, {
-      $push: { exercises: exercise._id },
-    });
     await Promise.all([saveExercisePromise, updateUserPromise]);
     res.status(201).json(exercise);
   } catch (e) {
@@ -25,13 +28,21 @@ async function createExercise(req, res) {
 
 async function removeExercise(req, res) {
   const { exerciseId } = req.body;
-  try {
-    const user = await User.findByIdAndUpdate(req.user._id, {
+  const updateUserPromise = User.findByIdAndUpdate(req.user._id, {
+    $pull: { exercises: exerciseId },
+  });
+  const removeExercisePromise = Exercise.deleteOne({ _id: exerciseId });
+  const removeFromWorkoutsPromises = req.user.workouts.map((workoutId) => {
+    Workout.findByIdAndUpdate(workoutId, {
       $pull: { exercises: exerciseId },
     });
-    if (!user) return res.status(400).send('You have no exercise with this id');
-    const removeExercisePromise = Exercise.deleteOne({ _id: exerciseId });
-    await Promise.all([removeExercisePromise, removeUserExercisePromise]);
+  });
+  try {
+    await Promise.all([
+      updateUserPromise,
+      removeExercisePromise,
+      ...removeFromWorkoutsPromises,
+    ]);
     res.status(202).send();
   } catch (e) {
     console.log(e);
@@ -48,7 +59,6 @@ async function updateExercise(req, res) {
     'repCount',
     'secondsBreak',
   ];
-  if (!exerciseId) res.send(400).send();
 
   // Only add fields that are defined
   const updateObject = bodyNames.reduce((acc, bodyName) => {
@@ -57,8 +67,6 @@ async function updateExercise(req, res) {
     if (value) acc[bodyName] = value;
     return acc;
   }, {});
-
-  console.log(updateObject);
 
   try {
     await Exercise.updateOne({ _id: exerciseId }, updateObject);
