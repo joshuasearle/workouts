@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const User = require('./models/user');
 
 dotenv.config();
 
@@ -13,8 +14,10 @@ function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   if (token == null) return res.status(401).send();
-  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+  jwt.verify(token, process.env.TOKEN_SECRET, async (err, userToken) => {
     if (err) return res.status(403).send();
+    const user = await User.findOne({ username: userToken.username });
+    if (!user) return res.status(401).send();
     req.user = user;
     next();
   });
