@@ -1,19 +1,25 @@
 const express = require('express');
 
 const router = express.Router();
+
+// User routes
+const userControllers = require('./controllers/userControllers');
+const { createUser, loginUser } = userControllers;
+
+router.post('/create-user', createUser);
+router.post('/login', loginUser);
+
+// All other routes require authentication
 const { authenticateToken } = require('./auth');
 
-router.post(
-  '/create-user',
-  require('./controllers/user-controllers/createUser')
-);
-router.post('/login', require('./controllers/login'));
-
 router.use(authenticateToken);
-router.post(
-  '/exercise',
-  require('./controllers/exercise-controllers/createExercise')
-);
-router.delete('/exercise', require('./controllers/removeExercise'));
+
+// Exercise routes
+const exerciseControllers = require('./controllers/exerciseControllers');
+const { createExercise, removeExercise, updateExercise } = exerciseControllers;
+
+router.post('/exercise', createExercise);
+router.put('/exercise', updateExercise);
+router.delete('/exercise', removeExercise);
 
 module.exports = router;
