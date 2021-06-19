@@ -19,9 +19,9 @@ const exerciseControllers = require('./controllers/exerciseControllers');
 const { createExercise, removeExercise, updateExercise, duplicateExercise } =
   exerciseControllers;
 
-router.post('/exercise', createExercise);
-router.put('/exercise', updateExercise);
-router.delete('/exercise', removeExercise);
+router.post('/exercises', createExercise);
+router.put('/exercises', updateExercise);
+router.delete('/exercises', removeExercise);
 router.post('/duplicate-exercise', duplicateExercise);
 
 module.exports = router;
