@@ -26,9 +26,10 @@ async function createExercise(req, res) {
 async function removeExercise(req, res) {
   const { exerciseId } = req.body;
   try {
-    const removeUserExercisePromise = User.findByIdAndUpdate(req.user._id, {
+    const user = await User.findByIdAndUpdate(req.user._id, {
       $pull: { exercises: exerciseId },
     });
+    if (!user) return res.status(400).send('You have no exercise with this id');
     const removeExercisePromise = Exercise.deleteOne({ _id: exerciseId });
     await Promise.all([removeExercisePromise, removeUserExercisePromise]);
     res.status(202).send();
