@@ -1,5 +1,5 @@
-const User = require('../../models/user');
-const Exercise = require('../../models/exercise');
+const User = require('../models/user');
+const Exercise = require('../models/exercise');
 
 async function createExercise(req, res) {
   const { title, description, setCount, repCount, secondsBreak } = req.body;
@@ -38,7 +38,7 @@ async function removeExercise(req, res) {
   }
 }
 
-async function createExercise(req, res) {
+async function updateExercise(req, res) {
   const { exerciseId, title, description, setCount, repCount, secondsBreak } =
     req.body;
   try {
@@ -53,4 +53,4 @@ async function createExercise(req, res) {
   }
 }
 
-module.exports = { createExercise, removeExercise, createExercise };
+module.exports = { createExercise, removeExercise, updateExercise };
