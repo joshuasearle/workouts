@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const morgan = require('morgan');
 
 require('./models/connection');
 
@@ -9,6 +10,8 @@ const router = require('./router');
 dotenv.config();
 const port = 5000;
 const app = express();
+
+app.use(morgan('tiny'));
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
