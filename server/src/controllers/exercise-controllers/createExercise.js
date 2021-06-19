@@ -1,5 +1,5 @@
-const User = require('../models/user');
-const Exercise = require('../models/exercise');
+const User = require('../../models/user');
+const Exercise = require('../../models/exercise');
 
 async function createExercise(req, res) {
   const { title, description, setCount, repCount, secondsBreak } = req.body;
