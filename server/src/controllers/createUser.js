@@ -5,6 +5,11 @@ const { generateAccessToken } = require('../auth');
 async function createUser(req, res) {
   const { username, password } = req.body;
   try {
+    const usersFound = await User.find({ username });
+    const usernameExists = usersFound.length !== 0;
+    if (usernameExists) {
+      return res.status(400).send('Username already exists');
+    }
     hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({
       username: username,
