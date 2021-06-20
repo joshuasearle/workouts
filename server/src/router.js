@@ -20,13 +20,19 @@ router.use(authenticateToken);
 
 // Exercise routes
 const exerciseControllers = require('./controllers/exerciseControllers');
-const { createExercise, removeExercise, updateExercise, duplicateExercise } =
-  exerciseControllers;
+const {
+  createExercise,
+  removeExercise,
+  updateExercise,
+  duplicateExercise,
+  getExercises,
+} = exerciseControllers;
 
 router.post('/exercises', createExercise);
 router.put('/exercises', checkExerciseId, updateExercise);
 router.delete('/exercises', checkExerciseId, removeExercise);
 router.post('/duplicate-exercise', checkExerciseId, duplicateExercise);
+router.get('/exercises', getExercises);
 
 // Workshop routes
 const workoutControllers = require('./controllers/workoutControllers');
