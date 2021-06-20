@@ -15,7 +15,7 @@ async function createWorkout(req, res) {
   });
 
   try {
-    await Promise.all(saveWorkoutPromise, updateUserPromise);
+    await Promise.all([saveWorkoutPromise, updateUserPromise]);
     res.status(201).send();
   } catch (e) {
     console.log(e);
