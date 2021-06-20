@@ -11,8 +11,8 @@ function generateAccessToken(username) {
 }
 
 function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  const { token } = req.body;
+  console.log(req.body);
   if (token == null) return res.status(401).send();
   jwt.verify(token, process.env.TOKEN_SECRET, async (err, userToken) => {
     if (err) return res.status(403).send();
