@@ -88,9 +88,14 @@ async function duplicateExercise(req, res) {
   return await createExercise(req, res);
 }
 
+async function getExercises(req, res) {
+  res.status(200).json(req.user.exercises);
+}
+
 module.exports = {
   createExercise,
   removeExercise,
   updateExercise,
   duplicateExercise,
+  getExercises,
 };
