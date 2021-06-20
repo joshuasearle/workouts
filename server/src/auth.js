@@ -11,12 +11,21 @@ function generateAccessToken(username) {
 }
 
 function authenticateToken(req, res, next) {
-  const { token } = req.body;
-  console.log(req.body);
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
   if (token == null) return res.status(401).send();
   jwt.verify(token, process.env.TOKEN_SECRET, async (err, userToken) => {
     if (err) return res.status(403).send();
-    const user = await User.findOne({ username: userToken.username });
+    const user = await User.findOne({ username: userToken.username })
+      .populate('exercises')
+      .populate('workouts')
+      .populate({
+        path: 'workouts',
+        populate: {
+          path: 'exercises',
+          model: 'Exercise',
+        },
+      });
     if (!user) return res.status(401).send();
     req.user = user;
     next();
