@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
+const cors = require('cors');
 
 require('./models/connection');
 
@@ -12,6 +13,8 @@ const port = 5000;
 const app = express();
 
 app.use(morgan('tiny'));
+
+app.use(cors());
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
