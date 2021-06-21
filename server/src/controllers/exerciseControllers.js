@@ -62,7 +62,6 @@ async function updateExercise(req, res) {
 
   // Only add fields that are defined
   const updateObject = bodyNames.reduce((acc, bodyName) => {
-    console.log(acc);
     const value = req.body[bodyName];
     if (value) acc[bodyName] = value;
     return acc;
