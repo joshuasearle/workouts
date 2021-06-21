@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-export default function HomePage({ token }) {
+export default function HomePage({ token, userData }) {
   return (
     <>
       <h1>Workouts</h1>
@@ -23,6 +23,7 @@ export default function HomePage({ token }) {
           </Link>
         </div>
       )}
+      <div>{JSON.stringify(userData, null, 2)}</div>
     </>
   );
 }
