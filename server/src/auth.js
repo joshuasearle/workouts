@@ -27,6 +27,9 @@ function authenticateToken(req, res, next) {
         },
       });
     if (!user) return res.status(401).send();
+    // Workaround
+    // Don't know how to remove field from mongoose object
+    user['password'] = null;
     req.user = user;
     next();
   });
