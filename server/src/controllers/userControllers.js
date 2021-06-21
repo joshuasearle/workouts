@@ -43,4 +43,8 @@ async function loginUser(req, res) {
   }
 }
 
-module.exports = { loginUser, createUser };
+async function getUserData(req, res) {
+  return res.status(200).json(req.user);
+}
+
+module.exports = { loginUser, createUser, getUserData };

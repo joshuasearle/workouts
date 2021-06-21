@@ -8,7 +8,7 @@ const { checkExerciseId, checkWorkoutId } = checkers;
 
 // User routes
 const userControllers = require('./controllers/userControllers');
-const { createUser, loginUser } = userControllers;
+const { createUser, loginUser, getUserData } = userControllers;
 
 router.post('/create-user', createUser);
 router.post('/login', loginUser);
@@ -17,6 +17,9 @@ router.post('/login', loginUser);
 const { authenticateToken } = require('./auth');
 
 router.use(authenticateToken);
+
+// Get data route
+router.get('/user', getUserData);
 
 // Exercise routes
 const exerciseControllers = require('./controllers/exerciseControllers');
