@@ -20,7 +20,9 @@ export default function Navbar({ authenticated }) {
       </Link>
       <div>
         {tabs.map((tab) => (
-          <Link to={tab.path}>{tab.name}</Link>
+          <Link key={tab.path} to={tab.path}>
+            {tab.name}
+          </Link>
         ))}
       </div>
     </nav>
