@@ -1,29 +1,23 @@
 import { Link } from 'react-router-dom';
 
-export default function HomePage({ token, userData }) {
+export default function HomePage({ authenticated, userData }) {
+  const authButton = <Link to='/workouts'>View Workouts</Link>;
+  const unAuthButtons = (
+    <>
+      <Link to='/login'>Login</Link>
+      <Link to='/signup'>Sign Up</Link>
+    </>
+  );
+
+  const callToAction = authenticated ? authButton : unAuthButtons;
+
   return (
     <>
-      <h1>Workouts</h1>
       <p>
         The app that lets you create, manage, and use custom workouts and
         exercises.
       </p>
-      {!token && (
-        <Link to='/signup'>
-          <button>Sign Up Here</button>
-        </Link>
-      )}
-      {!!token && (
-        <div>
-          <Link to='/exercises'>
-            <button>Exercises</button>
-          </Link>
-          <Link to='/workouts'>
-            <button>Workouts</button>
-          </Link>
-        </div>
-      )}
-      <div>{JSON.stringify(userData, null, 2)}</div>
+      {callToAction}
     </>
   );
 }
