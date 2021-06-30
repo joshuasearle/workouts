@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import getUserData from '../api/getUserData';
 
 export default function useUserData() {
   const [userData, setUserData] = useState(null);
 
-  async function updateUserData(token) {
+  const updateUserData = useCallback(async (token) => {
     if (!localStorage.getItem('workoutsJWT')) return;
     try {
       const userData = await getUserData();
@@ -12,7 +12,7 @@ export default function useUserData() {
     } catch (e) {
       console.log(e);
     }
-  }
+  }, []);
 
   return [userData, updateUserData];
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export default function useToken() {
   const [token, setToken] = useState(null);
@@ -10,10 +10,10 @@ export default function useToken() {
     setToken(localStorageToken);
   }, []);
 
-  function newSetToken(newToken) {
+  const newSetToken = useCallback((newToken) => {
     localStorage.setItem(localStorageName, newToken);
     setToken(newToken);
-  }
+  }, []);
 
   return [token, newSetToken];
 }
