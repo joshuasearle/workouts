@@ -17,7 +17,7 @@ import Navbar from './components/Navbar';
 import { useEffect } from 'react';
 
 export default function App() {
-  const [token, setToken] = useToken();
+  const setToken = useToken()[1];
   const [userData, updateUserData] = useUserData();
   const authenticated = !!userData && userData !== {};
 
@@ -27,7 +27,7 @@ export default function App() {
     } catch (e) {
       setToken(null);
     }
-  }, []);
+  }, [updateUserData, setToken]);
 
   return (
     <Router>

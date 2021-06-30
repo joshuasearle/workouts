@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import getUserData from '../api/getUserData';
 
 export default function useUserData() {
