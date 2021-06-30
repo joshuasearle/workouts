@@ -1,11 +1,20 @@
 import { Link } from 'react-router-dom';
 import deleteExercise from '../api/deleteExercise';
+import duplicateExercise from '../api/duplicateExercise';
 
 export default function ExercisesPage({ userData, updateUserData }) {
   function onDelete(exerciseId) {
     return async (e) => {
       e.preventDefault();
       await deleteExercise(exerciseId);
+      await updateUserData();
+    };
+  }
+
+  function onDuplicate(exerciseId) {
+    return async (e) => {
+      e.preventDefault();
+      await duplicateExercise(exerciseId);
       await updateUserData();
     };
   }
@@ -32,10 +41,10 @@ export default function ExercisesPage({ userData, updateUserData }) {
               <td>{exercise.repCount}</td>
               <td>{exercise.secondsBreak}s</td>
               <td>
-                <button>Edit</button>
+                <Link to={`/edit-exercise/${exercise._id}`}>Edit</Link>
               </td>
               <td>
-                <button>Duplicate</button>
+                <button onClick={onDuplicate(exercise._id)}>Duplicate</button>
               </td>
               <td>
                 <button onClick={onDelete(exercise._id)}>Delete</button>

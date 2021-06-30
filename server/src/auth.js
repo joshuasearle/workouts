@@ -26,6 +26,7 @@ function authenticateToken(req, res, next) {
           model: 'Exercise',
         },
       });
+
     if (!user) return res.status(401).send();
     // Workaround
     // Don't know how to remove field from mongoose object

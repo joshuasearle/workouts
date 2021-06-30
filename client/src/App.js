@@ -12,7 +12,10 @@ import HomePage from './pages/HomePage';
 import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
 import ExercisesPage from './pages/ExercisesPage';
+import EditExercisePage from './pages/EditExercisePage';
+import WorkoutsPage from './pages/WorkoutsPage';
 import AddExercisePage from './pages/AddExercisePage';
+import AddWorkoutPage from './pages/AddWorkoutPage';
 import Navbar from './components/Navbar';
 import { useEffect } from 'react';
 
@@ -62,6 +65,30 @@ export default function App() {
             <Redirect to='/' />
           ) : (
             <AddExercisePage updateUserData={updateUserData} />
+          )}
+        </Route>
+        <Route exact path='/add-workout'>
+          {!authenticated ? (
+            <Redirect to='/' />
+          ) : (
+            <AddWorkoutPage updateUserData={updateUserData} />
+          )}
+        </Route>
+        <Route exact path='/edit-exercise/:exerciseId'>
+          {!authenticated ? (
+            <Redirect to='/' />
+          ) : (
+            <EditExercisePage
+              updateUserData={updateUserData}
+              userData={userData}
+            />
+          )}
+        </Route>
+        <Route exact path='/workouts'>
+          {!authenticated ? (
+            <Redirect to='/' />
+          ) : (
+            <WorkoutsPage updateUserData={updateUserData} userData={userData} />
           )}
         </Route>
         <Route exact path='/' userData={userData}>
